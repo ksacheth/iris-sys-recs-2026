@@ -55,3 +55,34 @@ Added the `nginx.conf` file and restarted the app container to not expose the po
 now the app is accessed from the url `localhost` since it proxies it to `rails_app` which set to `rails_app:3000` which is the docker container name of the app.
 
 ![alt text](<Screenshot 2026-02-12 at 6.28.52 PM.png>)
+
+
+# Task 4
+
+I ran two more container using this command:
+
+```bash
+docker run -d \
+  --name rails-app-2 \
+  --network iris-network \
+  iris
+
+docker run -d \
+  --name rails-app-3 \
+  --network iris-network \
+  iris
+```
+
+and then set the upstream in `nginx.conf` to use all three container i.e 
+
+```nginx
+        server rails-app:3000;
+        server rails-app-2:3000;
+        server rails-app-3:3000;
+```
+
+since the nginx automatically load balance using Round Robin.
+
+Then restarted the `nginx` container to apply changes.
+
+![alt text](<Screenshot 2026-02-12 at 6.37.53 PM.png>)
