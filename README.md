@@ -46,3 +46,12 @@ docker exec rails-app bin/rails db:create db:migrate
 ```
 
 ![alt text](<Screenshot 2026-02-12 at 5.58.01 PM.png>)
+
+
+# Task 3
+
+Added the `nginx.conf` file and restarted the app container to not expose the port 8080.
+
+now the app is accessed from the url `localhost` since it proxies it to `rails_app` which set to `rails_app:3000` which is the docker container name of the app.
+
+![alt text](<Screenshot 2026-02-12 at 6.28.52 PM.png>)
