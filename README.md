@@ -86,3 +86,33 @@ since the nginx automatically load balance using Round Robin.
 Then restarted the `nginx` container to apply changes.
 
 ![alt text](<Screenshot 2026-02-12 at 6.37.53 PM.png>)
+
+
+# Task 5
+
+Create a volume to store the data from the database with the command:
+
+```bash
+docker volume create iris-db-data
+```
+
+Then created a new container with `-v` flag i.e mount the volume to the container:
+
+The volume is mounted to the folder in the container where my sql stores the date i.e /var/lib/mysql.
+
+```bash
+docker run -d \
+  --name mysql-db \
+  --network iris-network \
+  -v iris-db-data:/var/lib/mysql \
+  -e MYSQL_ROOT_PASSWORD=Gukesh12garry@ \
+  -e MYSQL_DATABASE=iris_db \
+  --platform linux/amd64 \
+  mysql:5.7
+```
+
+This makes sure even when container dies the data is present in the volume.
+
+And already the `nginx.conf` is present in the repo and attached via `-v` flag previously, so the presists in the laptop even when container dies,
+and mounts back when container starts again.
+
