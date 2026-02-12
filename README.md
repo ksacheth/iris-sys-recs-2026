@@ -116,3 +116,9 @@ This makes sure even when container dies the data is present in the volume.
 And already the `nginx.conf` is present in the repo and attached via `-v` flag previously, so the presists in the laptop even when container dies,
 and mounts back when container starts again.
 
+# Task 6
+
+Added compose file and optimised it for bundle cache.
+
+![alt text](image.png)
+
