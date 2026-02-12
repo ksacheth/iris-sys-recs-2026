@@ -98,7 +98,7 @@ docker volume create iris-db-data
 
 Then created a new container with `-v` flag i.e mount the volume to the container:
 
-The volume is mounted to the folder in the container where my sql stores the date i.e /var/lib/mysql.
+The volume is mounted to the folder in the container where my sql stores the date i.e `/var/lib/mysql`.
 
 ```bash
 docker run -d \
@@ -122,3 +122,23 @@ Added compose file and optimised it for bundle cache.
 
 ![alt text](image.png)
 
+# Task 7 
+
+Update `nginx.conf` to use rate limit via:
+
+```nginx
+limit_req_zone $binary_remote_addr zone=mylimit:10m rate=5r/s;
+```
+
+here:
+* `$binary_remote_addr`: Identify users by IP address
+* `zone=mylimit:10m`: Create a memory zone named "mylimit" (10MB size)
+* `rate=5r/s`: Allow 5 requests per second 
+
+now apply the limit via:
+
+```nginx
+limit_req zone=mylimit burst=10 nodelay;
+```
+
+![alt text](image-1.png)
