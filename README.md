@@ -142,3 +142,46 @@ limit_req zone=mylimit burst=10 nodelay;
 ```
 
 ![alt text](image-1.png)
+
+
+# Task 8
+
+Configure a Monitoring Solution for all the containers using Prometheus and Grafana.
+
+First added prometheus-client gem to the Gemfile:
+
+```ruby
+gem 'prometheus-client', '~> 4.0'
+```
+
+then created the initializer `config/initializers/prometheus.rb` to expose metrics at `/metrics` endpoint:
+
+```ruby
+require 'prometheus/middleware/collector'
+require 'prometheus/middleware/exporter'
+
+Rails.application.config.middleware.use Prometheus::Middleware::Collector
+Rails.application.config.middleware.use Prometheus::Middleware::Exporter
+```
+
+Now the Rails app exposes metrics at `http://<container>:3000/metrics`.
+
+Then added the monitoring services to `compose.yml`:
+
+| Service | Port | Purpose |
+|---------|------|---------|
+| prometheus | 9090 | Metrics collection & storage |
+| grafana | 3001 | Visualisation dashboard |
+| node-exporter | 9100 | System metrics (CPU, memory, disk) |
+| mysqld-exporter | 9104 | MySQL metrics |
+| nginx-exporter | 9113 | Nginx metrics |
+
+The `prometheus.yml` configures Prometheus to scrape metrics from all these targets.
+
+The grafana is pre-configured with Prometheus as datasource via provisioning.
+
+![alt text](task8-monitoring.png)
+
+Access:
+* Grafana: http://localhost:3001 (admin/admin)
+* Prometheus: http://localhost:9090
